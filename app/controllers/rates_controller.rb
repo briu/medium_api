@@ -1,8 +1,8 @@
 class RatesController < ApplicationController
   def create
-    rate = Rate.create(rate_params)
-    if rate.save
-      render json: { avg_rate: Rate.avg_post_rate(rate.post_id) }
+    rate_builder = RateBuilder.new(rate_params)
+    if rate_builder.create
+      render json: { avg_rate: rate_builder.avg_rate }
     else
       render json: rate.errors, status: :unprocessable_entity
     end
