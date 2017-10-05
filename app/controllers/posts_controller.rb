@@ -1,4 +1,10 @@
 class PostsController < ApplicationController
+  def index
+    # TODO: move to post namespace for different conditions
+    limit = params[:limit] || 10
+    render json: Post.most_rated_posts(limit)
+  end
+
   def create
     builder = PostBuilder.new(post_params, author_params)
 
