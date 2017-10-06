@@ -15,7 +15,7 @@ class RateBuilder
   def create
     begin
       Rate.transaction do
-        rate = Rate.new(rate_params)
+        rate = Rate.new(@rate_params)
         rate.save!
 
         current_avg_rate = Rate.avg_post_rate(@post.id)

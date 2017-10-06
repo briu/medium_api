@@ -4,7 +4,7 @@ class RatesController < ApplicationController
     if rate_builder.create
       render json: { avg_rate: rate_builder.avg_rate }
     else
-      render json: rate.errors, status: :unprocessable_entity
+      render json: rate_builder.errors, status: :unprocessable_entity
     end
   end
 
