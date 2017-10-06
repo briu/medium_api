@@ -6,8 +6,8 @@ describe PostsController, :type => :api do
       before do
         @users_count = User.count
         @posts_count = Post.count
-        @params = { post: { title: 'test', body: 'test body' },
-                    author: { login: 'shakespeare' } }.with_indifferent_access
+        @params = { post: { title: Faker::Lorem.sentence, body: Faker::Lorem.paragraph },
+                    author: { login: Faker::Name.name } }.with_indifferent_access
         post '/posts', @params
       end
 
@@ -32,8 +32,8 @@ describe PostsController, :type => :api do
       before do
         @users_count = User.count
         @posts_count = Post.count
-        @params = { post: { title: '', body: 'test body' },
-                    author: { login: 'shakespeare2' } }.with_indifferent_access
+        @params = { post: { title: '', body: Faker::Lorem.paragraph },
+                    author: { login: Faker::Name.name } }.with_indifferent_access
         post '/posts', @params
       end
 
@@ -50,11 +50,11 @@ describe PostsController, :type => :api do
       end
     end
 
-    context 'with not valid authour parameter' do
+    context 'with not valid author parameter' do
       before do
         @users_count = User.count
         @posts_count = Post.count
-        @params = { post: { title: 'test', body: 'test body' },
+        @params = { post: { title: Faker::Lorem.sentence, body: Faker::Lorem.paragraph },
                     author: { login: '' } }.with_indifferent_access
         post '/posts', @params
       end
@@ -69,6 +69,50 @@ describe PostsController, :type => :api do
 
       it 'should respond with error' do
         expect(json[:user]).to eq({ 'login' => ["can't be blank"] })
+      end
+    end
+  end
+
+  describe '#index' do
+    let(:author) { User.create({ login: Faker::Name.name }) }
+
+    context 'most rated posts' do
+      before do
+        @post_1 = Post.create(user: author, title: Faker::Lorem.sentence,
+                              body: Faker::Lorem.paragraph, avg_rate: 1.2)
+        @post_2 = Post.create(user: author, title: Faker::Lorem.sentence,
+                              body: Faker::Lorem.paragraph, avg_rate: 2.2)
+        @post_3 = Post.create(user: author, title: Faker::Lorem.sentence,
+                              body: Faker::Lorem.paragraph, avg_rate: 3.2)
+        @post_4 = Post.create(user: author, title: Faker::Lorem.sentence,
+                              body: Faker::Lorem.paragraph, avg_rate: 4.2)
+        @limit_size = 2
+
+        get '/posts', { limit: @limit_size }
+      end
+
+      it 'responds with a 200 status' do
+        expect(last_response.status).to eq 200
+      end
+
+      it 'should return limited size' do
+        expect(json[:posts].size).to eq(@limit_size)
+      end
+
+      it 'should return body with max rated post firstly' do
+        expect(json[:posts].first[:body]).to eq(@post_4.body)
+      end
+
+      it 'should return title with max rated post firstly' do
+        expect(json[:posts].first[:title]).to eq(@post_4.title)
+      end
+
+      it 'should return body second rated post' do
+        expect(json[:posts].last[:body]).to eq(@post_3.body)
+      end
+
+      it 'should return title with max rated post' do
+        expect(json[:posts].last[:title]).to eq(@post_3.title)
       end
     end
   end

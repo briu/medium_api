@@ -2,7 +2,7 @@ class PostsController < ApplicationController
   def index
     # TODO: move to post namespace for different conditions
     limit = params[:limit] || 10
-    render json: Post.most_rated_posts(limit)
+    render json: Post.most_rated_posts(limit), adapter: :json
   end
 
   def create

@@ -2,8 +2,11 @@ require 'spec_helper'
 
 describe PostsController, :type => :api do
   describe '#create' do
-    let(:author) { User.create({ login: 'shakespeare' }) }
-    let(:post_obj) { Post.create({ title: 'test', body: 'test body', user: author }) }
+    let(:author) { User.create({ login: Faker::Name.name }) }
+    let(:post_obj) do
+      Post.create({ title: Faker::Lorem.sentence, body: Faker::Lorem.paragraph, user: author })
+    end
+
     let(:default_rates) do
       [1, 3, 5].map { |r| Rate.create(post: post_obj, value: r) }
     end
