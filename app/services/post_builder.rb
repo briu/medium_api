@@ -1,10 +1,14 @@
 class PostBuilder
+  attr_reader :post
+
   def initialize(post_params, author_params)
     @initial_post_params = post_params
     @author_params = author_params
   end
 
   def create
+    # SHOULD AUTHOR BE CREATED IF POST FAILED?
+    # IF SHOULD - WRAP TO TRANSACTION
     author_created? && post_created?
   end
 
@@ -14,6 +18,10 @@ class PostBuilder
 
       res[entity.model_name.element.to_sym] = entity.errors.messages
     end
+  end
+
+  def post
+    @post_obj ||= Post.create(post_params)
   end
 
   private
@@ -31,11 +39,7 @@ class PostBuilder
   end
 
   def author
-    @author_obj ||= User.find_or_create_by(login: author_params[:login])
-  end
-
-  def post
-    @post_obj ||= Post.create(post_params)
+    @author_obj ||= User.find_or_create_by(login: @author_params[:login])
   end
 
   def post_params

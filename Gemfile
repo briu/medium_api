@@ -10,10 +10,12 @@ gem 'activerecord-import', '~> 0.17'
 gem 'rails', '~> 5.0.6'
 gem 'pg', '~> 0.18'
 gem 'puma', '~> 3.0'
+gem 'active_model_serializers', '~> 0.10.0'
 
 group :development, :test do
   gem 'byebug', platform: :mri
   gem 'rspec-rails'
+  gem 'pry-rails'
 end
 
 group :development do

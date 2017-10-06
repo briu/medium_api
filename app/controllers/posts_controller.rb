@@ -9,7 +9,7 @@ class PostsController < ApplicationController
     builder = PostBuilder.new(post_params, author_params)
 
     if builder.create
-      render json: builder.post
+      render json: builder.post, adapter: :json
     else
       render json: builder.errors, status: :unprocessable_entity
     end
