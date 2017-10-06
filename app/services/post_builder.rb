@@ -1,9 +1,9 @@
 class PostBuilder
   attr_reader :post
 
-  def initialize(post_params, author_params)
-    @initial_post_params = post_params
-    @author_params = author_params
+  def initialize(post_params:, author_params:, ip:)
+    @initial_post_params = post_params.with_indifferent_access
+    @author_params = author_params.with_indifferent_access
   end
 
   def create

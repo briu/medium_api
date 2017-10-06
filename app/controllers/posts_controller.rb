@@ -6,7 +6,12 @@ class PostsController < ApplicationController
   end
 
   def create
-    builder = PostBuilder.new(post_params, author_params)
+    builder_params = {
+      post_params: post_params.to_h,
+      author_params: author_params.to_h,
+      ip: request.remote_ip
+    }
+    builder = PostBuilder.new(builder_params)
 
     if builder.create
       render json: builder.post, adapter: :json
@@ -22,8 +27,6 @@ class PostsController < ApplicationController
   end
 
   def author_params
-    params.require(:author).permit(:login).tap do |p|
-      p[:ip] = request.remote_ip
-    end
+    params.require(:author).permit(:login)
   end
 end
