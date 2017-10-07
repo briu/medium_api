@@ -141,13 +141,13 @@ describe PostsController, :type => :api do
 
     context 'most rated posts' do
       before do
-        @post_1 = Post.create(user: author, title: Faker::Lorem.sentence,
+        @post1 = Post.create(user: author, title: Faker::Lorem.sentence,
                               body: Faker::Lorem.paragraph, avg_rate: 1.2)
-        @post_2 = Post.create(user: author, title: Faker::Lorem.sentence,
+        @post2 = Post.create(user: author, title: Faker::Lorem.sentence,
                               body: Faker::Lorem.paragraph, avg_rate: 2.2)
-        @post_3 = Post.create(user: author, title: Faker::Lorem.sentence,
+        @post3 = Post.create(user: author, title: Faker::Lorem.sentence,
                               body: Faker::Lorem.paragraph, avg_rate: 3.2)
-        @post_4 = Post.create(user: author, title: Faker::Lorem.sentence,
+        @post4 = Post.create(user: author, title: Faker::Lorem.sentence,
                               body: Faker::Lorem.paragraph, avg_rate: 4.2)
         @limit_size = 2
 
@@ -163,19 +163,19 @@ describe PostsController, :type => :api do
       end
 
       it 'should return body with max rated post firstly' do
-        expect(json[:posts].first[:body]).to eq(@post_4.body)
+        expect(json[:posts].first[:body]).to eq(@post4.body)
       end
 
       it 'should return title with max rated post firstly' do
-        expect(json[:posts].first[:title]).to eq(@post_4.title)
+        expect(json[:posts].first[:title]).to eq(@post4.title)
       end
 
       it 'should return body second rated post' do
-        expect(json[:posts].last[:body]).to eq(@post_3.body)
+        expect(json[:posts].last[:body]).to eq(@post3.body)
       end
 
       it 'should return title with max rated post' do
-        expect(json[:posts].last[:title]).to eq(@post_3.title)
+        expect(json[:posts].last[:title]).to eq(@post3.title)
       end
     end
   end

@@ -1,5 +1,5 @@
 class IpsController < ApplicationController
   def index
-    render json: PostsByIpPresenter.new(Post.group_by_same_ip)
+    render json: UsersByIpPresenter.new(UsersIp.users_with_same_ip)
   end
 end
