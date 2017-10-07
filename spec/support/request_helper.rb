@@ -1,7 +1,8 @@
 module Requests
   module JsonHelpers
     def json
-      JSON.parse(last_response.body).with_indifferent_access
+      resp = JSON.parse(last_response.body)
+      resp.is_a?(Hash) ? resp.with_indifferent_access : resp
     end
   end
 end
