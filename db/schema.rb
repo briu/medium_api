@@ -35,9 +35,11 @@ ActiveRecord::Schema.define(version: 20171006151321) do
   create_table "posts_ips", force: :cascade do |t|
     t.integer  "post_id"
     t.integer  "ip_id"
+    t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["post_id", "ip_id"], name: "index_posts_ips_on_post_id_and_ip_id", using: :btree
+    t.index ["user_id", "ip_id"], name: "index_posts_ips_on_user_id_and_ip_id", using: :btree
   end
 
   create_table "rates", force: :cascade do |t|
