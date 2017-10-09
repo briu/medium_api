@@ -142,13 +142,13 @@ describe PostsController, :type => :api do
     context 'most rated posts' do
       before do
         @post1 = Post.create(user: author, title: Faker::Lorem.sentence,
-                              body: Faker::Lorem.paragraph, avg_rate: 1.2)
+                             body: Faker::Lorem.paragraph, avg_rate: 1.2)
         @post2 = Post.create(user: author, title: Faker::Lorem.sentence,
-                              body: Faker::Lorem.paragraph, avg_rate: 2.2)
+                             body: Faker::Lorem.paragraph, avg_rate: 2.2)
         @post3 = Post.create(user: author, title: Faker::Lorem.sentence,
-                              body: Faker::Lorem.paragraph, avg_rate: 3.2)
+                             body: Faker::Lorem.paragraph, avg_rate: 3.2)
         @post4 = Post.create(user: author, title: Faker::Lorem.sentence,
-                              body: Faker::Lorem.paragraph, avg_rate: 4.2)
+                             body: Faker::Lorem.paragraph, avg_rate: 4.2)
         @limit_size = 2
 
         get '/posts', limit: @limit_size
