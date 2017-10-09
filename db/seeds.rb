@@ -7,6 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 one_time_usage_ips_size = 100
+random_rate_val = 5
 
 one_time_usage_ips = 1.upto(one_time_usage_ips_size).map { |cnt| "127.0.0.#{cnt}"}
 
@@ -22,5 +23,11 @@ autors_logins = 1.upto(200).map { |cnt| Faker::Name.name }
     ip: ip
   }
 
-  PostBuilder.new(params).create
+  post_builder = PostBuilder.new(params)
+  post_builder.create
+
+  rand(10).times do |t|
+    builder = RateBuilder.new(post_id: post_builder.post_obj.id, value: rand(random_rate_val))
+    builder.create
+  end
 end

@@ -16,3 +16,11 @@ config/database.yml
 
 # Ignore Byebug command history file.
 .byebug_history
+
+.DS_Store
+app/.DS_Store
+config/.DS_Store
+db/.DS_Store
+lib/.DS_Store
+spec/.DS_Store
+test/.DS_Store
