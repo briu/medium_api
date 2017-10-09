@@ -17,8 +17,7 @@ describe PostsController, :type => :api do
         result_rates_arr = [*default_rates.map(&:value), rate_value]
         @result_avg = result_rates_arr.sum / result_rates_arr.size.to_f
         @rates_count = Rate.count
-        params = { rate: { post_id: post_obj.id, value: rate_value } }.with_indifferent_access
-        post '/rates', params
+        post '/rates', rate: { post_id: post_obj.id, value: rate_value }
       end
 
       it 'responds with a 200 status' do
@@ -37,8 +36,7 @@ describe PostsController, :type => :api do
     context 'with invalid params' do
        before do
         @rates_count = Rate.count
-        params = { rate: { post_id: post_obj.id, value: 6 } }.with_indifferent_access
-        post '/rates', params
+        post '/rates', rate: { post_id: post_obj.id, value: 6 }
       end
 
       it 'responds with a 422 status' do

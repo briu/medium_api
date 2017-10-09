@@ -151,7 +151,7 @@ describe PostsController, :type => :api do
                               body: Faker::Lorem.paragraph, avg_rate: 4.2)
         @limit_size = 2
 
-        get '/posts', { limit: @limit_size }
+        get '/posts', limit: @limit_size
       end
 
       it 'responds with a 200 status' do
