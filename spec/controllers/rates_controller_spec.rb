@@ -8,12 +8,17 @@ describe PostsController, :type => :api do
     end
 
     let(:default_rates) do
-      [1, 3, 5].map { |r| Rate.create(post: post_obj, value: r) }
+      [1, 3, 5].map do |r|
+        builder = RateBuilder.new(post_id: post_obj.id, value: r)
+        builder.create
+        builder.rate
+      end
     end
 
     context 'with valid params' do
       before do
         rate_value = 2
+
         result_rates_arr = [*default_rates.map(&:value), rate_value]
         @result_avg = result_rates_arr.sum / result_rates_arr.size.to_f
         @rates_count = Rate.count

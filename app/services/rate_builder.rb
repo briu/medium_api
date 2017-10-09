@@ -1,7 +1,7 @@
 class RateBuilder
   MAX_RETRIES = 2
 
-  attr_reader :post, :errors
+  attr_reader :post, :rate, :errors
 
   delegate :avg_rate, to: :post
 
@@ -15,12 +15,12 @@ class RateBuilder
   def create
     begin
       Rate.transaction do
-        rate = Rate.new(@rate_params)
-        rate.save!
+        @rate = Rate.new(@rate_params)
+        @rate.save!
 
-        current_avg_rate = Rate.avg_post_rate(@post.id)
-
-        @post.avg_rate = current_avg_rate
+        @post.rates_sum += rate.value
+        @post.rates_count += 1
+        @post.avg_rate = @post.rates_sum.to_f / @post.rates_count
         @post.save!
 
         true
